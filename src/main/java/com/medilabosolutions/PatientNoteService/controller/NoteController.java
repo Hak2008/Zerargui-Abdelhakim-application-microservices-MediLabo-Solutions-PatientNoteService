@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping
@@ -21,6 +22,17 @@ public class NoteController {
     public ResponseEntity<List<Note>> getAllNotes() {
         List<Note> notes = noteRepository.findAll();
         return new ResponseEntity<>(notes, HttpStatus.OK);
+    }
+
+    @GetMapping("/note/{id}")
+    public ResponseEntity<Note> getNoteById(@PathVariable String id) {
+        Optional<Note> optionalNote = noteRepository.findById(id);
+        if (optionalNote.isPresent()) {
+            Note note = optionalNote.get();
+            return new ResponseEntity<>(note, HttpStatus.OK);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Note not found with id: " + id);
+        }
     }
 
     @GetMapping("/note/details/{patId}")
@@ -60,4 +72,14 @@ public class NoteController {
         noteRepository.deleteById(id);
         return new ResponseEntity<>("Note deleted successfully", HttpStatus.OK);
     }
+
+    @DeleteMapping("/note/delete/notes/{patId}")
+    public ResponseEntity<String> deleteNoteByPatId(@PathVariable int patId) {
+        if (noteRepository.findByPatId(patId).isEmpty()) {
+            return new ResponseEntity<>("Note not found with patId: " + patId, HttpStatus.NOT_FOUND);
+        }
+        noteRepository.deleteAllByPatId(patId);
+        return new ResponseEntity<>("Note deleted successfully", HttpStatus.OK);
+    }
+
 }
