@@ -38,6 +38,7 @@ public class NoteController {
     @GetMapping("/note/details/{patId}")
     public ResponseEntity<List<Note>> getNotesByPatId(@PathVariable int patId) {
         List<Note> notes = noteRepository.findByPatId(patId);
+
         if (notes.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Notes not found for patient: " + patId);
         }
