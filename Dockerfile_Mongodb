@@ -1,0 +1,8 @@
+# Use of official image MongoDB
+FROM mongo:4.4
+
+# Working directory in container
+WORKDIR /usr/src/app
+
+# Command to execute when the container starts
+CMD [ "mongod" ]
