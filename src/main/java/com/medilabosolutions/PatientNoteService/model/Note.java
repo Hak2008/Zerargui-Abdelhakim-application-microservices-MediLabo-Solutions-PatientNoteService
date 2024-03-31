@@ -13,7 +13,7 @@ public class Note {
     @Id
     private String id;
 
-    @NotBlank(message = "patId cannot be blank")
+    @NotBlank(message = "patID cannot be blank")
     private Integer patId;
 
     @NotBlank(message = "patient cannot be blank")
