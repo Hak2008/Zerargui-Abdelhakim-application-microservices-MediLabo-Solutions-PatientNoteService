@@ -19,7 +19,6 @@ public class Note {
     @NotBlank(message = "patient cannot be blank")
     private String patient;
 
-    @NotBlank(message = "note cannot be blank")
     private String note;
 
 }
